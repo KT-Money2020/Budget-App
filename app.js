@@ -21,19 +21,36 @@ var budgetController = (function(){
 var UIController = (function(){
     
     
+    
+    
+    /*Returns the function 'getInput' to the controller, therefore making it public*/
+    return {
+        getInput: function(){
+    //Returns the current stored values the user has inputted by returning them in an object
+            return {
+            //Will be either inc or exp
+            type: document.querySelector('.add__type').value,
+        
+            description: document.querySelector('.add__description').value,
+            
+            value: document.querySelector('.add__value').value
+            }          
+    }
+    }
 })();
 
 
 
 
 
-//Global App Controller (Controls data and UI)
+//Global App Controller (Controls data and UI, telling them what to do)
 //Parameters that are 'predicted to be passed' and receive and arguments
 var controller = (function(budgetCtrl, UICtrl){
     
     var ctrlAddItem = function(){
         // 1. Get the filed input data
-        
+            var input = UICtrl.getInput();
+            console.log(input);
         // 2. Add the item to the budget controller
         
         // 3. Add the item to the UI
