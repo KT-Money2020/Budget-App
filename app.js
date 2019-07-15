@@ -67,6 +67,18 @@ var budgetController = (function(){
             //Returns the current 'newItem' Object
             return newItem;
         },
+        deleteItem: function(type,id){
+            var ids, index;
+             ids = data.allItems[type].map(function(current){
+                return current.id;
+        });
+            index = ids.indexOf(id);
+            
+            if(index !== -1){
+                data.allItems[type].splice(index, 1);
+            }
+            
+        },
         
         //calculating budget
         calculateBudget: function(){
@@ -157,6 +169,12 @@ var UIController = (function(){
          /*In the html file you would notice some code commented out its because this is what will fill in the gap*/
          /*The 'element' triggers whether or not the program should target the + or - symbol and then the 'beforeend' tells the program implement the code before the end of the line of code with the newly created html code that has changed the ID, Description, and Value. */ document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
       },
+        
+        deleteListItem: function(selectorID){
+            var el = document.getElementById(selectorID);
+            el.parentNode.removeChild(el);  
+    },
+         
     //Designed to clear the input box after user has entered data    
     clearFields: function(){
         var fields, fieldsArr;
@@ -262,13 +280,14 @@ var controller = (function(budgetCtrl, UICtrl){
             //inc-1
             splitID = itemID.split('-');
             type = splitID[0];
-            ID = splitID[1];
+            ID = parseInt(splitID[1]);
             
             // 1. delete the item from the data structure
-            
+            budgetCtrl.deleteItem(type,ID);
             // 2. Delete the item from the UI
-            
+            UICtrl.deleteListItem(itemID);
             // 3. Update and show the new budget
+            updateBudget();
         }
     };
     
