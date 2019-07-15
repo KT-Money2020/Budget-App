@@ -37,10 +37,10 @@ var budgetController = (function(){
             inc: 0
         },
         budget: 0,
-        percentage -1
+        percentage: -1
     };
     
-    /*Returning function to make the data accessible and public to other modules*/
+    /*Returning function to make the data accessible and public to other modules */
     return {
         addItem: function(type, des, val){
             var newItem, ID;
@@ -77,8 +77,18 @@ var budgetController = (function(){
             //calculate the budget: income - expenses
             data.budget = data.totals.inc - data.totals.exp;
             //calculate the percentage of income that we spend
-            data.percentage = Math.round((data.total.exp / data.total.inc) * 100);
+            data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);
             // Expense = 100 and income 300, spent 33.333% = 100/300 = 0.3333 * 100
+        },
+        
+        getBudget: function(){
+            /*Above you can see that return happens only once because you only want to return the function but here you are returning twice because you also want to return an object containing all the data */
+            return {
+                budget: data.budget,
+                totalInc: data.totals.inc,
+                totalExp: data.totals.exp,
+                percentage: data.percentage
+            }
         }
         
     };
@@ -190,11 +200,11 @@ var controller = (function(budgetCtrl, UICtrl){
     
     var updateBudget = function(){
         // 1. Calculate the budget
-        
+        budgetCtrl.calculateBudget();
         // 2. Return the budget
-        
+        var budget = budgetCtrl.getBudget();
         // 3. Display the budget on the UI
-        
+        console.log(budget);
     }
     
     //Function that adds the item to the screen
