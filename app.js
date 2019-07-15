@@ -109,13 +109,24 @@ var UIController = (function(){
           newHtml = newHtml.replace('%description%', obj.description);
           newHtml = newHtml.replace('%value%', obj.value);
           //Insert the HTML into the DOM
-          document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+         
+         /*In the html file you would notice some code commented out its because this is what will fill in the gap*/
+         /*The 'element' triggers whether or not the program should target the + or - symbol and then the 'beforeend' tells the program implement the code before the end of the line of code with the newly created html code that has changed the ID, Description, and Value. */ document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
       },
-        
+    //Designed to clear the input box after user has entered data    
     clearFields: function(){
-        var fields;
+        var fields, fieldsArr;
         
         fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue);
+        
+        fieldsArr = Array.prototype.slice.call(fields);
+        
+        fields.forEach(function(current, index, array){
+            current.value = "";
+        });
+        
+        fieldsArr[0].focus();
+        
     },    
         
     /* Return the HTML class values, AKA DOM strings, so that the code targetted could also be reused by the controll module */
@@ -163,9 +174,12 @@ var controller = (function(budgetCtrl, UICtrl){
             newItem = budgetCtrl.addItem(input.type, input.description, input.value);
         // 3. Add the item to the UI, Passes in 'newItem' object
             UICtrl.addListItem(newItem, input.type);
-        // 4. Calculate the budget
         
-        // 5. Display the budget on the UI
+        // 4. Clear the fields
+            UICtrl.clearFields();
+        // 5. Calculate the budget
+        
+        // 6. Display the budget on the UI
         
         console.log('It works');
     };
